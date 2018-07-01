@@ -1,0 +1,199 @@
+﻿@using Microsoft.SharePoint.Client;
+@using Microsoft.SharePoint.Client.Taxonomy;
+@model FieldCollection
+
+@{
+    ViewBag.Title = "GetFields";
+}
+
+<script src="https://appsforoffice.microsoft.com/lib/beta/hosted/office.js" type="text/javascript"></script>
+<script type="text/javascript">
+    Office.initialize = function (reason) {
+        $(document).ready(function () {
+
+            insertSumthing();
+
+        });
+
+
+        async function insertSumthing() {
+
+            //convert Json
+
+                    @*var json = @Html.Raw(Json.Encode(@ViewBag.JsonContentTypeList));
+
+                    var jsonPair = JSON.parse(json);
+
+
+                    console.log("Json Pair:");
+
+                    console.log(jsonPair);*@
+
+
+            Office.context.document.customXmlParts.getByNamespaceAsync("http://schemas.microsoft.com/office/2006/metadata/properties", function (resultdata) {
+
+
+                console.log(resultdata.value.lenght);
+
+
+
+                if (resultdata.value.lenght > 0) {
+
+
+                    console.log(resultdata.value);
+
+
+
+                }
+
+
+            });
+        }
+    }
+</script>
+
+
+@*<head>
+       <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            Office.initialize = function () {
+
+                $(document).ready(function () {
+
+                    //$('#submitToSpace').click(insertSumthing);
+                });
+
+                async function insertSumthing() {
+
+
+
+                    Office.context.document.customXmlParts.getByNamespaceAsync("http://schemas.microsoft.com/office/2006/metadata/properties", function (data) {
+
+                        if (data.value.length > 0) {
+
+                            for (let i = 0; i < data.value.length; i++) {
+
+                                var xmlpart = data.value[i];
+
+                                console.log(xmlpart);
+
+                                xmlpart.getNodesAsync('*/*', function (noderesult) {
+                                    console.log(noderesult.value.length);
+                                    console.log(noderesult.value);
+
+                                    for (i = 0; i < noderesult.value.length; i++) {
+
+                                        var node = noderesult.value[i]
+
+                                        console.log(node.baseName);
+
+                                        node.getTextAsync({ asyncContext: "StateNormal" }, function (result) {
+
+                                            // console.log(result);
+                                            // console.log(result.value);
+
+                                        });
+
+                                        console.log("NewValue")
+
+
+                                        //var input = document.getElementById("inputbox");
+                                        //console.log(input.value);
+                                        //var newinput = input.value;
+                                        //console.log("inputbalue: " + newinput)
+
+                                        node.setTextAsync("NewUpdate", { asyncContext: "StateNormal" }, function (result) {
+
+                                            console.log(result);
+                                            console.log(result.value);
+
+                                        });
+
+
+
+
+
+
+                                    }
+                                });
+                            }
+                        }
+
+                    });
+
+
+
+                }
+
+            }
+        </script>
+    </head>*@
+<h2>@ViewBag.Title</h2>
+
+<form method="post" enctype="multipart/form-data" action="/Home/UpdateInformation?SPHostUrl=@ViewBag.SPHostUrl">
+
+    @{
+
+        foreach (Field item in Model)
+        {
+
+            if (item.Group == "Karlshamn Fields")
+            {
+                switch (item.TypeAsString)
+                {
+                    case "Text":
+                        @item.Title
+                        <input type="text" name="newValue" />
+                        <br />
+                        break;
+                    case "TaxonomyFieldTypeMulti":
+                        @item.Title
+
+                        <select>
+                            @{
+                                if (ViewBag.Term != null)
+                                {
+
+                                    for (int i = 0; i < ViewBag.Term.Count; i++)
+                                    {
+                                        <option name="newValue">@ViewBag.Term[i]</option>
+                                    }
+                                }
+                            }
+
+
+                        </select>
+                        <br />
+                        break;
+                    case "URL":
+                        @item.Title <input type="url" name="newValue" /><br />
+                        break;
+                    case "Note":
+                        @item.Title <input type="text" name="newValue" /><br />
+                        break;
+                    case "Number":
+                        @item.Title <input type="number" name="newValue" /><br />
+                        break;
+                    case "Boolean":
+                        @item.Title
+                        <input type="radio" id="radioYes" value="Yes" title="@item.Title" name="newValue" />
+                        <label for="radioYes">Yes</label>
+                        <input type="radio" id="radioNo" value="No" title="@item.Title" name="newValue" />
+                        <label for="radioNo">No</label>
+                        <br />
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+        }
+
+    }
+
+    <input type="hidden" name="SelectedCT" value="@ViewBag.SelectedCT" /><br />
+
+    <input id="submitToSpace" type="submit" value="Save" />
+
+</form>

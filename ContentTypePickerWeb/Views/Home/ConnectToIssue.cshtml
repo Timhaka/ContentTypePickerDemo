@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "ConnectToIssue";
+}
+
+<h2>ConnectToIssue</h2>
+
+<body>
+
+    <form method="post">
+        <input type="text" name="issueTitle" />
+        <input type="text" name="issueDescription" />
+        <input type="email" name="assignTo" />
+        <select name="status">
+            <option>Active</option>
+            <option>Resolved</option>
+            <option>Closed</option>
+        </select>    
+        <select name="priority">
+            <option>High</option>
+            <option>Normal</option>
+            <option>Low</option>
+        </select>
+        <button type="submit">Link To Issue</button>
+    </form>
+
+</body>

@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "DocumentIndex";
+}
+
+<h2>DocumentIndex</h2>
+
+@*<button onclick="/Document/InsertParagraph?SPHostUrl=@ViewBag.SPHostUrl">Edit Paragraph</button>
+  <button onclick="/Document/EditHeader?SPHostUrl=@ViewBag.SPHostUrl">Insert Header</button>
+  <button onclick="/Document/EditFooter?SPHostUrl=@ViewBag.SPHostUrl">>Insert Footer</button>*@
+
+
+@*<button onclick="/Home/Index?SPHostUrl=@ViewBag.SPHostUrl">Return</button>*@
+
+
+<p><a class="btn btn-default" href="/Document/InsertParagraph/?SPHostUrl=@ViewBag.SPHostUrl">Edit Paragraph &raquo;</a></p>
+<p><a class="btn btn-default" href="/Document/EditHeader/?SPHostUrl=@ViewBag.SPHostUrl">Insert Header &raquo;</a></p>
+<p><a class="btn btn-default" href="/Document/EditFooter/?SPHostUrl=@ViewBag.SPHostUrl">Insert Footer &raquo;</a></p>
+
+
+
+<p><a class="btn btn-default" href="/ContentType/Index/?SPHostUrl=@ViewBag.SPHostUrl">Return &raquo;</a></p>

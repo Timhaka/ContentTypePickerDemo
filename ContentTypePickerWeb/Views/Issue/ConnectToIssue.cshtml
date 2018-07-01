@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "ConnectToIssue";
+}
+
+<h2>ConnectToIssue</h2>
+<head>
+    <script type="text/javascript">
+
+        function GetTitle() {
+
+            Word.run(function (context) {
+
+                var builtInProperties = context.document.properties;
+                context.load(builtInProperties);
+
+                return context.sync().then(function () {
+
+                    console.log(builtInProperties);
+                    console.log(builtInProperties.title);
+
+
+                    var IssueTitle = document.getElementById("titleIssue");
+                    IssueTitle.value = builtInProperties.title;
+
+                    //getting the filename of the current document
+                    var url = Office.context.document.url;
+                    var filename = url.substring(url.lastIndexOf('/') + 1);
+                    var docuName = document.getElementById("DocName");
+                    var docuUrl = document.getElementById("DocUrl");
+                    docuName.value = filename;
+                    docuUrl.value = url;
+ 
+                    console.log(builtInProperties.title);
+
+
+                    return context.sync()
+                        .then(function () { });
+                })
+            })
+        }      
+
+    </script>
+</head>
+<body onload="GetTitle()">
+    <form method="post">
+        <table>
+            <tr>
+                <td>Title:</td>
+                <td><input id="titleIssue" value="" type="text" name="issueTitle" /></td>
+            </tr>
+            <tr>
+                <td>Description:</td>
+                <td><input type="text" name="issueDescription" /></td>
+            </tr>
+            <tr>
+                <td>Assaign To email:</td>
+                <td><input type="email" name="assignTo" /></td>
+            </tr>
+            <tr>
+                <td>Status:</td>
+                <td>
+                    <select name="status">
+                        <option>Active</option>
+                        <option>Resolved</option>
+                        <option>Closed</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Priority:</td>
+                <td>
+                    <select name="priority">
+                        <option>High</option>
+                        <option>Normal</option>
+                        <option>Low</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <input id="DocUrl" name="documentUrl" type="hidden" value="" />
+        <input id="DocName" name="documentName" type="hidden" value="" />
+        <button type="submit">Link To Issue</button>
+    </form>
+
+
+
+    <p><a class="btn btn-default" href="/ContentType/Index/?SPHostUrl=@ViewBag.SPHostUrl">Return &raquo;</a></p>
+</body>
+
+
+@*<input type="text" name="issueTitle" />
+    <input type="text" name="issueDescription" />
+    <input type="email" name="assignTo" />
+    <select name="status">
+        <option>Active</option>
+        <option>Resolved</option>
+        <option>Closed</option>
+    </select>
+    <select name="priority">
+        <option>High</option>
+        <option>Normal</option>
+        <option>Low</option>
+    </select>*@

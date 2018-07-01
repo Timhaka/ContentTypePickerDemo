@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<head>
+
+</head>
+<body>
+    <div class="jumbotron">
+        <h2>Welcome @ViewBag.UserName!</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Overview</h2>
+            <p>This Add-in will help you change your fields and update your information of the dokument you are working in.</p>
+        </div>
+        <div class="col-md-4">
+            <h2>Start</h2>
+            <p>Click the Button To Start working with Office Add-in</p>
+            <p><a id="GetCT" class="btn btn-default" href="/ContentType/index/?SPHostUrl=@ViewBag.SPHostUrl">Start Using add-in &raquo;</a></p>
+        </div>
+    </div>
+</body>

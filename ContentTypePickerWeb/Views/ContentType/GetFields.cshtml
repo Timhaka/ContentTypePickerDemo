@@ -1,0 +1,80 @@
+﻿@using Microsoft.SharePoint.Client;
+@using Microsoft.SharePoint.Client.Taxonomy;
+@model FieldCollection
+
+
+@{
+    ViewBag.Title = "GetFields";
+}
+
+
+
+<h2>GetFields</h2>
+
+<form method="post" enctype="multipart/form-data" action="/ContentType/UpdateInformation?SPHostUrl=@ViewBag.SPHostUrl">
+
+    @{
+
+        foreach (Field item in Model)
+        {
+
+            if (item.Group == "MyCT")
+            {
+                switch (item.TypeAsString)
+                {
+                    case "Text":
+                        @item.Title
+                        <input type="text" name="newValue" />
+                        <br />
+                        break;
+                    case "TaxonomyFieldTypeMulti":
+                        @item.Title
+                        <select name="newValue">
+                            @{
+                                if (ViewBag.Term != null)
+                                {
+
+                                    for (int i = 0; i < ViewBag.Term.Count; i++)
+                                    {
+                                        <option name="newValue">@ViewBag.Term[i]</option>
+                                    }
+                                }
+                            }
+                        </select>
+                        <br />
+                        break;
+                    case "URL":
+                        @item.Title <input type="url" name="newValue" /><br />
+                        break;
+                    case "Note":
+                        @item.Title <input type="text" name="newValue" /><br />
+                        break;
+                    case "Number":
+                        @item.Title <input type="number" name="newValue" /><br />
+                        break;
+                    case "Boolean":
+                        @item.Title
+                        <input type="radio" id="radioYes" value="true" title="@item.Title" name="newValue" />
+                        <label for="radioYes">Yes</label>
+                        <input type="radio" id="radioNo" value="false" title="@item.Title" name="newValue" />
+                        <label for="radioNo">No</label>
+                        <br />
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+        }
+
+    }
+
+    <input type="hidden" name="SelectedCT" value="@ViewBag.SelectedCT" /><br />
+
+    <input id="submitToSpace" type="submit" value="Save" />
+
+</form>
+
+<p><a class="btn btn-default" href="/ContentType/Index/?SPHostUrl=@ViewBag.SPHostUrl">Return &raquo;</a></p>
+

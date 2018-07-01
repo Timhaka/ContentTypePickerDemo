@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "UpdateInformation";
+}
+
+@*<head>
+        <script src="https://appsforoffice.microsoft.com/lib/beta/hosted/office.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            (() => {
+            Office.initialize = (reason) => {
+                $(document).ready(() => {
+
+                    $('#pressToUpdate').click(UpdateInformation);
+
+                });
+            }
+            //function to update information
+            function UpdateInformation() {
+
+
+                var json = @Html.Raw(Json.Encode(@ViewBag.JsonContentTypeList));
+
+                var jsonPair = JSON.parse(json);
+
+                Word.run(async (context) => {
+
+                    var s = context.document.properties;
+                    context.load(s);
+                    //---2
+
+                    Office.context.document.customXmlParts.getByNamespaceAsync("http://schemas.microsoft.com/office/2006/metadata/properties", function (eventargs) {
+                        console.log(eventargs);
+
+                        console.log("Found " + eventargs.value.length + " parts with this namespace");
+
+                        if (eventargs.value.length > 0) {
+
+                            for (let i = 0; i < eventargs.value.length; i++) {
+
+                                var xmlpart = eventargs.value[i];
+
+                                console.log(xmlpart);
+
+                                xmlpart.getNodesAsync('*/*', function (noderesult) {
+                                    console.log(noderesult.value.length);
+                                    console.log(noderesult.value);
+
+                                    for (i = 0; i < noderesult.value.length; i++) {
+
+                                        var node = noderesult.value[i]
+
+                                        console.log(node.baseName);
+
+                                        node.getTextAsync({ asyncContext: "StateNormal" }, function (result) {
+
+                                            console.log(result);
+                                            console.log(result.value);
+                                        })
+                                    };
+                                })
+                            }
+                        }
+                    });
+
+                    //---2
+
+                    //---
+                    //Office.context.document.customXmlParts.getByNamespaceAsync('http://schemas.microsoft.com/office/2006/metadata/properties',
+                    //    function (asyncResult) {
+
+                    //        console.log(asyncResult.value);
+
+                    //        if (asyncResult.value.length > 0) {
+                    //            var xmlPart = asyncResult.value[0];
+
+                    //            xmlPart.getNodesAsync('*/*', function (nodeResults) {
+                    //                console.log(nodeResults.value.length);
+                    //                console.log(nodeResults.value.length);
+                    //                for (var i = 0; i < nodeResults.value.length; i++) {
+                    //                    var node = nodeResults.value[i];
+                    //                    //var node = nodeResults.value[0];
+                    //                    //console.log(node);
+                    //                    node.getTextAsync({ asyncContext: "StateNormal" }, function (result) {
+                    //                        console.log(result);
+                    //                        console.log(result.value);
+                    //                    });
+                    //                }
+
+
+                    //            })
+
+
+                    //        }
+
+                    //    })
+                        //----
+
+
+
+                    return context.sync().then(function () {
+                        //console.log(s);
+
+
+                    })
+
+                })
+
+            }
+            })();
+        </script>
+    </head>*@
+
+
+
+<h2>You sure you want to update the information</h2>
+<input id="jsonToConvert" type="hidden" value="@ViewBag.JsonContentTypeList" />
+<button id="pressToUpdate">Update</button>
+<p><a class="btn btn-default" href="/ContentType/Index/?SPHostUrl=@ViewBag.SPHostUrl">Return &raquo;</a></p>
+
+
+
