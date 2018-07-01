@@ -1,0 +1,133 @@
+﻿
+@*
+<head>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+    <script type="text/javascript">
+            Office.initialize = function () {
+
+                $(document).ready(function () {
+
+                    $('#template').click(changeTemplate);
+                    //$('#template').click(Update);
+                    $('#testXML').click(getCustomXmlParts);
+                });
+
+
+                function getCustomXmlParts() {
+                    Office.context.document.customXmlParts.getByNamespaceAsync('http://schemas.microsoft.com/office/2006/metadata/properties', function (asyncResult) {
+                        write('Retrieved ' + asyncResult.value.length + ' custom XML parts');
+
+                    });
+                }
+                function write(message) {
+                    console.log(message);
+                }
+
+
+
+
+                function changeTemplate() {
+
+                    Word.run(function (context) {
+
+                        context.document.customXMLParts
+
+                        var builtInProperties = context.document.properties;
+                        var customerProperties = context.document.properties.customProperties;
+                        var bind = context.document.bindings;
+
+                        context.load(customerProperties);
+                        context.load(builtInProperties);
+                        context.load(bind);
+
+                        customerProperties.load("Key, type, value");
+
+                        return context.sync().then(function () {
+                            console.log(bind);
+
+                            for (var i = 0; i < customerProperties.items.length; i++) {
+                                console.log("Property Name:" + customerProperties.items[i].key + ";Type=" + customerProperties.items[i].type + "; Property Value=" + customerProperties.items[i].value);
+                            }
+
+                            console.log(builtInProperties.title);
+
+
+
+                            builtInProperties.title = "newTitle2";
+
+
+                            console.log(builtInProperties.title);
+
+
+                            var Adress = customerProperties.getItemOrNullObject("KARLSHAMN_Adress");
+                            var Id = customerProperties.getItemOrNullObject("ContentTypeId");
+
+                            context.load(Adress);
+                            context.load(Id)
+
+                            return context.sync()
+                                .then(function () {
+                                    console.log(Adress);
+                                    console.log(Id);
+                                    Adress.value = "TorkelsTestVag 300";
+                                    context.document.fields.update();
+                                    console.log(Adress.value);
+
+                                });
+                        })
+                    })
+                };
+             }
+    </script>
+</head>*@
+
+@*<h2>Index</h2>
+
+<div>
+    <select id="testSelect">
+        @{
+        foreach (ContentType item in Model)
+        {
+        <option value="@item.Name">@item.Name</option>
+        }
+        }
+    </select>
+</div>
+@*<div class="BoxForListItem" style="margin: 10px;" onclick="ShowFields('@Html.Raw(@ViewBag.JsonContentTypeList)', '@item.Name')">
+    @**@
+
+
+    @*onclick="window.location = '/Home/GetFields/?SelectedCT=@item.Id&currentDoc=&SPHostUrl=@ViewBag.spHost'"*@
+    @*<div>*@
+        @{
+        @*foreach (ContentType item in Model)
+        {
+
+        <div class="BoxForListItem" style="margin: 10px;" onclick="goToGetFields('@item.Id', '@ViewBag.spHost')">
+            <p style="text-align:center;">
+                @Html.DisplayName(item.Name)
+            </p>
+        </div>
+
+        };*@
+        }
+
+
+    @*</div>*@
+
+
+    @*<div id="divMsg"></div>
+    <br />
+    <button type="button" class="btn btn-primary btn-md" id="template">
+        Template
+    </button>
+    <button type="button" class="btn btn-primary btn-md" id="testXML">
+        TestXML
+    </button>
+
+    <button type="button" class="btn btn-primary btn-md" id="issue" onclick="window.location = '/Home/ConnectToIssue/?SPHostUrl=@ViewBag.spHost'">
+        connect to issue*@
+    @*</button>*@*@*@
+
+
+
